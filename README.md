@@ -92,7 +92,7 @@ pending --> canceled: 用户取消
 
 要设置开发环境，请按照以下步骤操作：
 
-- Java 24
+- Java 17
 - Maven 3.8+
 - MySQL 5.7.43
 - 将项目克隆到本地路径。
