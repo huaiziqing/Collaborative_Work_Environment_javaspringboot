@@ -10,6 +10,4 @@
 ### 服务器的mysql版本是5.7.43
 ### mysql 登陆用户connect 
 ### 密码tute@alydmysql 
-### mysql远程登陆时需要注意 
-### 先配置ssh 
-### ssh的用户是aly，密码tute123 
+### mysql远程登陆时需要注意
