@@ -7,106 +7,42 @@ import org.example.server.model.ServerResource;
 import org.example.server.service.ResourceService;
 import org.example.server.repository.ResourceRepository;
 
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 
 /**
  * @author huaiziqng
  */
 
-// 模拟的数据库访问实现
-class InMemoryBookRepository implements BookRepository {
-    @Override
-    public Book findById(int bookId) {
-        // 实现简单的内存数据获取
-        return null;
-    }
-
-    @Override
-    public List<Book> findAll() {
-        // 实现简单的内存数据获取
-        return null;
-    }
-
-    @Override
-    public void save(Book book) {
-        // 实现简单的内存存储
-    }
-
-    @Override
-    public void update(Book book) {
-        // 实现简单的内存更新
-    }
-
-    @Override
-    public void delete(int bookId) {
-        // 实现简单的内存删除
-    }
-}
-
-class InMemoryResourceRepository implements ResourceRepository {
-    @Override
-    public ServerResource findById(int resourceId) {
-        // 实现简单的内存数据获取
-        return null;
-    }
-
-    @Override
-    public List<ServerResource> findAll() {
-        // 实现简单的内存数据获取
-        return null;
-    }
-
-    @Override
-    public void save(ServerResource resource) {
-        // 实现简单的内存存储
-    }
-
-    @Override
-    public void update(ServerResource resource) {
-        // 实现简单的内存更新
-    }
-
-    @Override
-    public void delete(int resourceId) {
-        // 实现简单的内存删除
-    }
-}
-
 public class MainApplication {
+
     public static void main(String[] args) {
-        // 初始化图书服务
-        BookRepository bookRepository = new InMemoryBookRepository();
-        BookService bookService = new BookService(bookRepository);
+        String libraryDbUrl = "jdbc:mysql://120.26.114.28:3306/library_rental_system";
+        String serverDbUrl = "jdbc:mysql://120.26.114.28:3306/server_rental_system";
+        String user = "connect";
+        String password = "tute@alydmysql";
+        try {
+            // 图书系统数据库测试
+            try (Connection conn = DriverManager.getConnection(libraryDbUrl, user, password);
+                 Statement stmt = conn.createStatement()) {
 
-        // 初始化服务器资源服务
-        ResourceRepository resourceRepository = new InMemoryResourceRepository();
-        ResourceService resourceService = new ResourceService(resourceRepository);
-
-        // 示例：添加一本新书
-        Book newBook = new Book();
-        newBook.setTitle("Java编程");
-        newBook.setAuthor("James Gosling");
-        newBook.setPublisher("机械工业出版社");
-        newBook.setPublishYear((short) 2020);
-        newBook.setCategoryId(2); // 技术类
-        newBook.setTotalCount(5);
-        newBook.setLocation("A区4排");
-        newBook.setCallNumber("TP312/789");
-
-        bookService.addBook(newBook);
-        System.out.println("Added new book: " + newBook.getTitle());
-
-        // 示例：添加一台新服务器
-        ServerResource newServer = new ServerResource();
-        newServer.setName("高性能计算服务器");
-        newServer.setDescription("用于科学计算的高性能服务器");
-        newServer.setCpuCapacity(new java.math.BigDecimal("128.0"));
-        newServer.setMemoryCapacity(new java.math.BigDecimal("1024.0"));
-        newServer.setStorageCapacity(new java.math.BigDecimal("20000.0"));
-        newServer.setLocation("数据中心A-机架1");
-        newServer.setStatus("idle");
-
-        resourceService.addResource(newServer);
-        System.out.println("Added new server: " + newServer.getName());
+                // 查询图书表数据
+                ResultSet rs = stmt.executeQuery("SELECT * FROM Book");
+                System.out.println("===== Book表数据 =====");
+                while (rs.next()) {
+                    // 按示例格式输出
+                    System.out.printf("%s,%s,%s,%s\n",
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("publisher")
+                    );
+                }
+            } catch (SQLException e) {
+                System.err.println("数据库查询错误: " + e.getMessage());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
