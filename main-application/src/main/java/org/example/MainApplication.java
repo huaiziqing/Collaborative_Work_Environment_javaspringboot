@@ -26,6 +26,7 @@ public class MainApplication {
             try (Connection conn = DriverManager.getConnection(libraryDbUrl, user, password);
                  Statement stmt = conn.createStatement()) {
 
+
                 // 查询图书表数据
                 ResultSet rs = stmt.executeQuery("SELECT * FROM Book");
                 System.out.println("===== Book表数据 =====");
