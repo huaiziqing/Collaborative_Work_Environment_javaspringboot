@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@localhost" uuid="08fcccdf-ebf1-487b-aad8-0e55d3917c0b">
+    <data-source source="LOCAL" name="@localhost" uuid="9e8c0f16-7440-479e-8df8-1ddba6f94206">
       <driver-ref>mysql_aurora.aws_wrapper</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>software.amazon.jdbc.Driver</jdbc-driver>
