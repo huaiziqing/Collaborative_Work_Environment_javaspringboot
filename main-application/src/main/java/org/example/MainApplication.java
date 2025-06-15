@@ -1,14 +1,6 @@
 package org.example;
 
-import org.example.book.model.Book;
-import org.example.book.service.BookService;
-import org.example.book.repository.BookRepository;
-import org.example.server.model.ServerResource;
-import org.example.server.service.ResourceService;
-import org.example.server.repository.ResourceRepository;
-
 import java.sql.*;
-import java.util.*;
 
 /**
  * @author huaiziqng
@@ -22,6 +14,7 @@ public class MainApplication {
         String user = "connect";
         String password = "tute@alydmysql";
         try {
+
             // 图书系统数据库测试
             try (Connection conn = DriverManager.getConnection(libraryDbUrl, user, password);
                  Statement stmt = conn.createStatement()) {
