@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
  */
 
 public class BorrowRecord {
+
     private int recordId;
     private int bookId;
     private int userId;
@@ -15,11 +16,10 @@ public class BorrowRecord {
     private LocalDateTime borrowTime;
     private LocalDateTime dueTime;
     private LocalDateTime returnTime;
-    private String status; // pending, approved, borrowed, returned, overdue, rejected
     private Integer auditorId;
     private String rejectReason;
+    private String status;
 
-    // Getters and Setters
     public int getRecordId() {
         return recordId;
     }
@@ -84,14 +84,6 @@ public class BorrowRecord {
         this.returnTime = returnTime;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Integer getAuditorId() {
         return auditorId;
     }
@@ -106,5 +98,13 @@ public class BorrowRecord {
 
     public void setRejectReason(String rejectReason) {
         this.rejectReason = rejectReason;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
