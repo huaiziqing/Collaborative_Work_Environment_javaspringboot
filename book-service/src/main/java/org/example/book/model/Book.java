@@ -7,24 +7,43 @@ import java.util.List;
  */
 
 public class Book {
+    // 图书唯一标识符（数据库主键）
     private int bookId;
+    // 国际标准书号（13位数字）
     private String isbn;
+    // 图书标题
     private String title;
+    // 作者姓名
     private String author;
+    // 出版社名称
     private String publisher;
+    // 出版年份（使用short节省存储空间）
     private short publishYear;
+    // 所属分类ID（关联分类表）
     private int categoryId;
+    // 总馆藏数量
     private int totalCount;
+    // 已借出数量
     private int borrowedCount;
+    // 图书存放位置信息
     private String location;
+    // 索书号（图书唯一标识符）
     private String callNumber;
+    // 封面图片存储路径
     private String coverImagePath;
 
-    // Getters and Setters
+    /**
+     * 获取图书唯一标识符
+     * @return 返回bookId字段值
+     */
     public int getBookId() {
         return bookId;
     }
 
+    /**
+     * 设置图书唯一标识符
+     * @param bookId 待设置的主键值
+     */
     public void setBookId(int bookId) {
         this.bookId = bookId;
     }
@@ -118,19 +137,28 @@ public class Book {
     }
 
     public enum BorrowStatus {
+        /** 待审核 - 用户已提交借阅申请，等待管理员审核 */
         PENDING("pending"),
+        /** 已批准 - 管理员审核通过，等待用户取书 */
         APPROVED("approved"),
+        /** 已借出 - 用户已取书，借阅中 */
         BORROWED("borrowed"),
+        /** 已归还 - 用户已归还图书 */
         RETURNED("returned"),
+        /** 逾期 - 用户未按时归还图书 */
         OVERDUE("overdue"),
+        /** 已拒绝 - 管理员拒绝了借阅申请 */
         REJECTED("rejected");
 
+        // 存储与数据库匹配的字符串值
         private final String value;
 
+        // 构造函数绑定枚举值与字符串
         BorrowStatus(String value) {
             this.value = value;
         }
 
+        // 直接返回字符串值，确保与数据库交互时格式统一
         @Override
         public String toString() {
             return value;
@@ -141,6 +169,7 @@ public class Book {
     public boolean validateISBN() {
         return isbn != null && isbn.matches("\\d{13}"); // 13位数字正则校验
     }
+
 
     // 验证图书库存有效性
     public boolean hasAvailableCopies() {
@@ -185,5 +214,5 @@ public class Book {
                 .anyMatch(r -> "overdue".equals(r.getStatus()) && r.getBookId() == this.bookId);
     }
 
-
 }
+

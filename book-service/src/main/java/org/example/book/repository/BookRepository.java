@@ -6,7 +6,6 @@ import org.example.book.model.Book;
 import java.util.List;
 
 public interface BookRepository {
-
     // 查询单本图书（支持自动映射）
     @Select("SELECT * FROM Book WHERE book_id = #{bookId}")
     Book findById(int bookId);
