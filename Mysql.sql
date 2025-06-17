@@ -347,3 +347,12 @@ INSERT INTO Notification (user_id, rent_record_id, content, type, sent_time) VAL
                                                                                  (@student_liu_id, 2, '您的存储服务器租借将于3天后到期，请及时处理', 'server_due_reminder', '2023-10-16 08:00:00'),
                                                                                  (@prof_zhang_id, 3, '您的计算服务器租借已逾期5天，请立即处理', 'server_overdue_alert', '2023-10-06 09:30:00'),
                                                                                  (@student_wang_id, NULL, '您的图书《Python高级编程》将于明天到期', 'due_reminder', '2023-10-18 10:00:00');
+
+
+-- 修改 status 字段，添加 'canceled' 状态
+ALTER TABLE BorrowRecord
+    MODIFY COLUMN status ENUM('pending', 'approved', 'borrowed', 'returned', 'overdue', 'rejected', 'canceled') NOT NULL DEFAULT 'pending';
+
+
+-- 查看表结构确认修改
+DESCRIBE BorrowRecord;
