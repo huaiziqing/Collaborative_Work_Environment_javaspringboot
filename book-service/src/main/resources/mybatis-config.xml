@@ -21,5 +21,6 @@
 
     <mappers>
         <mapper class="org.example.book.repository.BookRepository"/>
+        <mapper class="org.example.book.repository.UserMapper"/>
     </mappers>
 </configuration>
