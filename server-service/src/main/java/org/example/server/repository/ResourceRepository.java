@@ -30,6 +30,7 @@ public interface ResourceRepository {
     List<ServerResource> findAll();
 
 
-
-
+    void save(ServerResource resource);
+    void update(ServerResource resource);
+    void delete(int resourceId);
 }

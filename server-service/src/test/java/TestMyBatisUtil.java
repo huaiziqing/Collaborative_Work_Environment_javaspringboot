@@ -40,6 +40,17 @@ public class TestMyBatisUtil {
         }
     }
 
+    void save(ServerResource resource) {
+
+    }
+
+    void update(ServerResource resource) {
+
+    }
+
+    void delete(int resourceId) {
+
+    }
 
 
 }
