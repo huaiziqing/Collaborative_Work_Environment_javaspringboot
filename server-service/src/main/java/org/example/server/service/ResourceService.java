@@ -24,15 +24,5 @@ public class ResourceService {
         return resourceRepository.findAll();
     }
 
-    public void addResource(ServerResource resource) {
-        resourceRepository.save(resource);
-    }
 
-    public void updateResource(ServerResource resource) {
-        resourceRepository.update(resource);
-    }
-
-    public void deleteResource(int resourceId) {
-        resourceRepository.delete(resourceId);
-    }
 }
