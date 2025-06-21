@@ -29,8 +29,28 @@ public interface ResourceRepository {
     })
     List<ServerResource> findAll();
 
-
+    // 新增服务器
+    @Insert({
+            "INSERT INTO ServerResource(resource_id, name, description, cpu_capacity, " +
+                    "memory_capacity, storage_capacity, location, status) " +
+                    "VALUES (#{resourceId},#{name},#{description},#{cpuCapacity},"  +
+                    "#{memoryCapacity},#{storageCapacity},#{location},#{status})"
+    })
+    @Options(useGeneratedKeys = true, keyColumn = "resource_id", keyProperty = "resourceId")
     void save(ServerResource resource);
+
+
+    // 更新服务器信息
+    @Update({
+            " UPDATE  ServerResource SET name= #{name}," +
+                    "status= #{status} " +
+                    "WHERE resource_id= #{resourceId}"
+    })
     void update(ServerResource resource);
+
+    // 删除服务器
+    @Delete("DELETE FROM ServerResource WHERE resource_id = #{resourceId}")
     void delete(int resourceId);
+
+
 }
