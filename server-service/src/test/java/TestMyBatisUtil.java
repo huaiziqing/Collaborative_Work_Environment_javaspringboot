@@ -7,7 +7,6 @@ import org.example.server.repository.ResourceRepository;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.mysql.cj.conf.PropertyKey.resourceId;
 
 public class TestMyBatisUtil {
     public static void main(String[] args) {
