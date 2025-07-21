@@ -80,4 +80,18 @@ public class ServerResource {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getTitle() {
+        return "ServerResource{" +
+                "resourceId=" + resourceId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", cpuCapacity=" + cpuCapacity +
+                ", memoryCapacity=" + memoryCapacity +
+                ", storageCapacity=" + storageCapacity +
+                ", location='" + location + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
 }
