@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>前后端通信测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .test-section { margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; background-color: #fafafa; }
+        button { padding: 10px 15px; margin: 5px; background-color: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .result { margin-top: 10px; padding: 10px; background-color: #f8f9fa; border-radius: 3px; border-left: 4px solid #007bff; }
+        pre { white-space: pre-wrap; word-wrap: break-word; background-color: #f8f9fa; padding: 10px; border-radius: 3px; max-height: 300px; overflow-y: auto; }
+        h1, h2, h3 { color: #333; }
+        .status { display: inline-block; padding: 5px 10px; border-radius: 3px; color: white; }
+        .success { background-color: #28a745; }
+        .error { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>协同办公系统 - 前后端通信测试</h1>
+        
+        <div class="test-section">
+            <h2>服务状态</h2>
+            <p>后端服务地址: <code>http://localhost:8080</code></p>
+            <p>前端服务地址: <code>http://localhost:8081</code></p>
+            <div id="service-status"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>API接口测试</h2>
+            <button onclick="testBooksAPI()">测试图书接口 (/api/books)</button>
+            <button onclick="testLoginAPI()">测试登录接口 (/api/login)</button>
+            <button onclick="testResourcesAPI()">测试资源接口 (/api/resources)</button>
+            <div id="api-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>跨域通信测试</h2>
+            <button onclick="testCorsRequest()">测试跨域请求</button>
+            <div id="cors-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // 检查服务状态
+        function checkServiceStatus() {
+            fetch('http://localhost:8080/api/books')
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('service-status').innerHTML = 
+                            '<p>后端服务: <span class="status success">运行正常</span></p>' +
+                            '<p>前端服务: <span class="status success">运行正常</span></p>';
+                    } else {
+                        throw new Error('后端服务异常');
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('service-status').innerHTML = 
+                        '<p>后端服务: <span class="status error">无法连接</span></p>' +
+                        '<p>前端服务: <span class="status success">运行正常</span></p>' +
+                        '<p>错误信息: ' + error.message + '</p>';
+                });
+        }
+
+        // 测试图书API
+        function testBooksAPI() {
+            document.getElementById('api-result').innerHTML = '<p>正在测试图书接口...</p>';
+            fetch('http://localhost:8080/api/books')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('api-result').innerHTML = 
+                        '<h3>图书接口测试结果:</h3>' +
+                        '<p>状态: <span class="status success">成功</span></p>' +
+                        '<p>返回数据条数: ' + data.length + '</p>' +
+                        '<details><summary>查看详细数据</summary><pre>' + JSON.stringify(data, null, 2) + '</pre></details>';
+                })
+                .catch(error => {
+                    document.getElementById('api-result').innerHTML = 
+                        '<h3>图书接口测试结果:</h3>' +
+                        '<p>状态: <span class="status error">失败</span></p>' +
+                        '<p>错误信息: ' + error.message + '</p>';
+                });
+        }
+
+        // 测试登录API
+        function testLoginAPI() {
+            document.getElementById('api-result').innerHTML = '<p>正在测试登录接口...</p>';
+            fetch('http://localhost:8080/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: 'testuser',
+                    password: 'testpass'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('api-result').innerHTML = 
+                    '<h3>登录接口测试结果:</h3>' +
+                    '<p>状态: <span class="status success">成功</span></p>' +
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                document.getElementById('api-result').innerHTML = 
+                    '<h3>登录接口测试结果:</h3>' +
+                    '<p>状态: <span class="status error">失败</span></p>' +
+                    '<p>错误信息: ' + error.message + '</p>';
+            });
+        }
+
+        // 测试资源API
+        function testResourcesAPI() {
+            document.getElementById('api-result').innerHTML = '<p>正在测试资源接口...</p>';
+            fetch('http://localhost:8080/api/resources')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('api-result').innerHTML = 
+                        '<h3>资源接口测试结果:</h3>' +
+                        '<p>状态: <span class="status success">成功</span></p>' +
+                        '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    document.getElementById('api-result').innerHTML = 
+                        '<h3>资源接口测试结果:</h3>' +
+                        '<p>状态: <span class="status error">失败</span></p>' +
+                        '<p>错误信息: ' + error.message + '</p>';
+                });
+        }
+
+        // 测试跨域请求
+        function testCorsRequest() {
+            document.getElementById('cors-result').innerHTML = '<p>正在测试跨域请求...</p>';
+            // 这里模拟前端向后端发起跨域请求
+            fetch('http://localhost:8080/api/books')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('响应状态: ' + response.status);
+                })
+                .then(data => {
+                    document.getElementById('cors-result').innerHTML = 
+                        '<h3>跨域请求测试结果:</h3>' +
+                        '<p>状态: <span class="status success">成功</span></p>' +
+                        '<p>说明: 前端可以成功访问后端API，跨域配置正常</p>';
+                })
+                .catch(error => {
+                    document.getElementById('cors-result').innerHTML = 
+                        '<h3>跨域请求测试结果:</h3>' +
+                        '<p>状态: <span class="status error">失败</span></p>' +
+                        '<p>错误信息: ' + error.message + '</p>' +
+                        '<p>说明: 跨域配置可能存在问题，请检查后端CORS配置</p>';
+                });
+        }
+
+        // 初始化检查
+        window.onload = function() {
+            checkServiceStatus();
+        };
+    </script>
+</body>
+</html>
