@@ -1,150 +1,159 @@
-# 协作办公项目文档
-
-本项目是一个协同工作环境，集成了图书租赁系统和服务器租赁系统。为图书资源和服务器资源提供统一的管理平台，支持学生、教师和管理员等多种用户角色。
+# 协同办公系统
 
 ## 项目概述
-本项目为模块化设计的协作工作环境系统，包含图书管理系统和服务器租借系统两大核心模块：
-- 使用Maven进行项目管理
-- 模块化架构设计（common基础模块 + book-service + server-service + main-application）
-- MySQL数据库双库设计（library_rental_system + server_rental_system）
 
+本项目是一个基于Spring Boot后端和Vue3前端的协同办公系统，主要包含图书管理和服务器资源管理功能。
+
+## 技术架构
+
+### 后端技术栈
+- Spring Boot 3.1.0
+- MyBatis
+- MySQL数据库
+- Maven构建工具
+
+### 前端技术栈
+- Vue 3
+- Vite
+- Element Plus
+- Axios
 
 ## 项目结构
 
-该项目采用Maven多模块架构，包含以下模块：
-
-- **common**：包含项目中通用的工具类和公共功能。
-- **book-service**：管理图书租赁系统，包括图书实体、仓库和业务逻辑。
-- **server-service**：管理服务器租赁系统，包括服务器资源实体、仓库和业务逻辑。
-- **main-application**：主应用模块，整合图书和服务器服务。
-
-## 模块职责
-
-### common
-
-`common`模块包含了整个项目中可复用的工具类和公共功能，包括：
-
-- **ConfigManager**：配置管理类，用于读取和设置配置项。
-- **GlobalException**：全局异常基类，用于统一处理应用中的异常。
-- **DatabaseException**：专门用于处理数据库相关异常。
-- **DateUtils**：日期时间工具类，提供日期格式化、计算和比较功能。
-- **IdGenerator**：唯一ID生成器，用于生成唯一的数字ID。
-
-```mermaid
-graph TD
-H[API网关] --> I[用户服务]
-H --> J[图书服务]
-H --> K[服务器租借服务]
-I --> L[用户数据库]
-J --> M[图书数据库]
-K --> N[服务器数据库]
+```
+项目根目录/
+├── collaborative-office-user/     # 前端项目（Vue3 + Vite）
+│   ├── src/                      # 前端源码
+│   ├── package.json              # 前端依赖配置
+│   └── vite.config.js            # 前端构建配置
+├── src/                          # 后端源码
+│   ├── main/java/org/example/    # 后端Java代码
+│   └── main/resources/           # 后端资源配置
+├── pom.xml                       # Maven配置
+└── README.md                     # 项目说明文档
 ```
 
-### book-service
+## 环境要求
 
-`book-service`模块负责图书租赁系统的管理，包括：
+- JDK 17+
+- Maven 3.6+
+- Node.js 16+
+- MySQL 8.0+
 
-- **Book**：图书实体类。
-- **Category**：图书分类实体类。
-- **User**：用户实体类。
-- **BorrowRecord**：借阅记录实体类。
-- **Notification**：通知记录实体类。
+## 快速开始
 
-```mermaid
-stateDiagram-v2
-[*] --> pending: 提交申请
-pending --> approved: 审核通过
-pending --> rejected: 审核拒绝
-pending --> canceled: 用户取消
+### 后端服务启动
 
-    approved --> borrowed: 开始使用
-    borrowed --> paused: 暂停使用
-    paused --> borrowed: 恢复使用
-    borrowed --> returned: 归还服务器
-    borrowed --> overdue: 超过归还时间
-    overdue --> returned: 归还服务器
+```bash
+# 克隆项目
+git clone <项目地址>
+
+# 进入项目目录
+cd Collaborative_Work_Environment_javaspringboot
+
+# 编译项目
+mvn clean compile
+
+# 运行项目
+mvn spring-boot:run
 ```
 
-### server-service
+后端服务默认运行在 `http://localhost:8080`
 
-`server-service`模块负责服务器租赁系统的管理，包括：
+### 前端服务启动
 
-- **ServerResource**：服务器资源实体类。
-- **ResourceCategory**：服务器资源分类实体类。
-- **RentApplication**：服务器租赁申请实体类。
-- **RentRecord**：服务器租赁记录实体类。
-- **ResourceUsageHistory**：服务器资源使用历史记录实体类。
+```bash
+# 进入前端目录
+cd collaborative-office-user
 
-### main-application
+# 安装依赖
+npm install
 
-`main-application`模块整合了图书和服务器服务，并提供了应用的主入口。
+# 启动开发服务器
+npm run dev
+```
 
-## 数据库设计
+前端服务默认运行在 `http://localhost:8081`
 
-项目使用了两个数据库：
+## API接口
 
-- **library_rental_system**：用于管理图书相关数据。
-- **server_rental_system**：用于管理服务器相关数据。
+### 用户相关
+- POST /api/login - 用户登录
+- POST /api/register - 用户注册
 
-数据库结构详细说明请参考`图书系统数据库说明文档.md`和`服务器系统数据库说明文档.md`。
+### 图书相关
+- GET /api/books - 获取所有图书
+- GET /api/books/{id} - 根据ID获取图书
+- POST /api/books - 添加图书
+- PUT /api/books/{id} - 更新图书信息
+- DELETE /api/books/{id} - 删除图书
 
-## 开发环境配置
+### 服务器资源相关
+- GET /api/resources - 获取所有服务器资源
+- GET /api/resources/{id} - 根据ID获取服务器资源
+- POST /api/resources - 添加服务器资源
+- PUT /api/resources/{id} - 更新服务器资源信息
+- DELETE /api/resources/{id} - 删除服务器资源
 
-要设置开发环境，请按照以下步骤操作：
+## 数据库配置
 
-- Java 17
-- Maven 3.8+
-- MySQL 5.7.43
-- 将项目克隆到本地路径。
+数据库连接信息配置在 `src/main/resources/application.yml` 文件中：
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://数据库地址:3306/library_rental_system?useSSL=false&serverTimezone=UTC
+    username: 用户名
+    password: 密码
+    driver-class-name: com.mysql.cj.jdbc.Driver
+```
 
 ## 开发规范
-1. **数据库使用规范**
-    - 仅允许查询测试数据
-    - 禁止修改数据库结构
-    - 缺失数据需向上反馈
 
-2. **代码规范**
-    - 所有模块使用UTF-8编码
-    - JDK版本要求17
-    - 实体类字段命名与数据库严格对应
+### 后端开发规范
+1. 采用分层架构：controller、service、repository、model
+2. 使用MyBatis进行数据访问
+3. 遵循RESTful API设计原则
+4. 统一异常处理
 
-3. **异常处理**
-    - 使用GlobalException统一异常体系
-    - 数据库操作抛出DatabaseException
-    - 错误码机制（500系列）
+### 前端开发规范
+1. 使用Vue 3 Composition API
+2. 组件化开发
+3. 遵循Element Plus设计规范
+4. 使用Axios进行HTTP请求
 
-## 注意事项
-1. 数据库版本要求：MySQL 5.7.43
-2. 状态字段值必须严格遵循定义：
-    - 图书状态：pending, approved, borrowed, returned, overdue, rejected
-    - 服务器状态：idle, in_use, maintenance, paused
-3. 时间字段处理：
-    - 使用LocalDateTime类型
-    - 默认格式：yyyy-MM-dd HH:mm:ss
-4. ID生成策略：
-    - 使用IdGenerator类生成唯一ID
-5. 查询性能优化：
-    - Book表：idx_book_title, idx_book_category
-    - BorrowRecord表：idx_borrow_status, idx_borrow_due_time
-    - ServerResource表：idx_resource_status, idx_resource_cpu
+## 部署说明
 
-## 构建与运行
+### 后端部署
 
-要构建和运行项目，请执行以下步骤：
+```bash
+# 打包项目
+mvn clean package
 
-1. 导航到项目根目录。
-2. 运行`mvn clean install`命令来构建项目。
-3. 运行`main-application`模块中的`MainApplication`类来启动应用。
+# 运行打包后的jar文件
+java -jar target/Collaborative_Work_Environment-1.0-SNAPSHOT.jar
+```
 
-## 贡献
+### 前端部署
 
-欢迎对本项目做出贡献。请遵循标准的GitHub工作流程：
+```bash
+# 构建生产版本
+npm run build:prod
 
-1. Fork本仓库。
-2. 为你的特性或Bug修复创建一个新的分支。
-3. 提交你的更改。
-4. 推送到你的Fork并提交Pull Request。
+# 部署dist目录中的文件到Web服务器
+```
+
+## 常见问题
+
+### 1. 端口冲突
+如果8080或8081端口被占用，可以修改配置文件中的端口设置。
+
+### 2. 数据库连接问题
+请确保MySQL服务正常运行，并且数据库连接配置正确。
+
+### 3. 跨域问题
+项目已配置CORS支持，如仍有跨域问题，请检查后端CorsConfig配置。
 
 ## 联系方式
 
-如有任何问题或需要支持，请通过电子邮件或GitHub上的问题跟踪器联系项目维护者。
+如有问题，请联系项目维护人员。
