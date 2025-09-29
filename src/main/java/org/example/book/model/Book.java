@@ -1,12 +1,14 @@
 package org.example.book.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author huaiziqng
  */
-
-public class Book {
+public class Book implements Serializable {
     // 图书唯一标识符（数据库主键）
     private int bookId;
     // 国际标准书号（13位数字）
@@ -31,6 +33,8 @@ public class Book {
     private String callNumber;
     // 封面图片存储路径
     private String coverImagePath;
+
+    private Integer availableCopies;
 
     /**
      * 获取图书唯一标识符
